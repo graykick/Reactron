@@ -8,6 +8,8 @@ class MusicPlay extends Component {
     constructor(props) {
         super(props);
 
+        this.counter;
+
         this.state = {
             title: "I don't wanna live forever I don't wanna live foreverI don't wanna live forever",
             album: "default album",
@@ -18,17 +20,28 @@ class MusicPlay extends Component {
                 artist: false
             },
             setOverFlow: false,
-            isPlaying: false,
+            isPlaying: true,
             position: 0,
-            current: -1,
-            total: -1,
-            client: null
+            current: 0,
+            total: -1
         }
 
         window.onresize = () => {
             this.setState({setOverFlow: false})
         }
 
+        this.increaseTime = this.increaseTime.bind(this);
+
+    }
+
+    increaseTime() {
+        console.log("in");
+        if(this.state.current < 1 && this.state.isPlaying) {
+            this.setState({
+                current: this.state.current + 0.001
+            })
+            console.log("up");
+        }
     }
 
     setFlow() {
@@ -134,8 +147,12 @@ class MusicPlay extends Component {
         if (!this.state.setOverFlow) {
             this.setFlow();
         }
-        {/*  여기에 최초 MPD연결, 소켓객체는 state에
-          중지 이벤트받으면, playing status false */}
+
+        this.counter = setInterval(this.increaseTime, 100);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.counter);
     }
 
     render() {
@@ -163,7 +180,7 @@ class MusicPlay extends Component {
                             : ""}
                     </div>
                 </h1>
-                <Progress/>
+                <Progress current={this.state.current} end={this.state.end}/>
             </div>
         );
     }
