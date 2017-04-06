@@ -12,13 +12,17 @@ class MusicPlay extends Component {
             title: "I don't wanna live forever I don't wanna live foreverI don't wanna live forever",
             album: "default album",
             artist: "Taylor Swift & ZAYN Taylor Swift & ZAYN Taylor Swift & ZAYN",
-            currentTime: -1,
             totalTime: 10,
             overflow: {
                 title: false,
                 artist: false
             },
-            setOverFlow: false
+            setOverFlow: false,
+            isPlaying: false,
+            position: 0,
+            current: -1,
+            total: -1,
+            client: null
         }
 
         window.onresize = () => {
@@ -130,6 +134,8 @@ class MusicPlay extends Component {
         if (!this.state.setOverFlow) {
             this.setFlow();
         }
+        {/*  여기에 최초 MPD연결, 소켓객체는 state에
+          중지 이벤트받으면, playing status false */}
     }
 
     render() {
