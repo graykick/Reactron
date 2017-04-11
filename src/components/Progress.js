@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 const propTypes = {
-    elapsed: React.PropTypes.number,
-    total: React.PropTypes.number,
+    current: React.PropTypes.string,
+    total: React.PropTypes.string,
     position: React.PropTypes.number
 };
 const defaultProps = {
@@ -16,8 +16,8 @@ class Progress extends Component {
     render() {
         return (
             <div className="progress">
-                <span className="player__time-elapsed">{0}</span>
-                <progress value={this.props.current} max="1"></progress>
+                <span className="player__time-elapsed">{this.props.current}</span>
+                <progress value={this.props.position} max="1" onClick={this.props.onClick}></progress>
                 <span className="player__time-total">{this.props.total}</span>
             </div>
         );

@@ -1,5 +1,9 @@
 import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import Progress from './Progress';
+import Marquee from './Marquee'
+import MarqueeDouble from './MarqueeDouble'
+
 import '../App.css';
 
 const propTypes = {};
@@ -9,12 +13,15 @@ class MusicPlay extends Component {
         super(props);
 
         this.counter;
+        this.titleMarquee;
+        this.artistMarquee;
+        this.singleArtist;
+        this.singleTitle;
 
         this.state = {
-            title: "I don't wanna live forever I don't wanna live foreverI don't wanna live forever",
+            title: "I don't Wanna Live Forever (Fifty Shades Darker)",
             album: "default album",
-            artist: "Taylor Swift & ZAYN Taylor Swift & ZAYN Taylor Swift & ZAYN",
-            totalTime: 10,
+            artist: "Taylor Swift & ZAYN",
             overflow: {
                 title: false,
                 artist: false
@@ -23,7 +30,9 @@ class MusicPlay extends Component {
             isPlaying: true,
             position: 0,
             current: 0,
-            total: -1
+            total: 2000,
+            currentTotal: 2000,
+            position: 0
         }
 
         window.onresize = () => {
@@ -31,30 +40,64 @@ class MusicPlay extends Component {
         }
 
         this.increaseTime = this.increaseTime.bind(this);
+        this.handlePlay = this.handlePlay.bind(this);
+    }
 
+    handlePlay(event) {
+        this.setState({
+            isPlaying: !this.state.isPlaying
+        })
+    }
+
+    secondToHms(d) {
+        // let secNum = parseInt(d, 10);
+        // let hours = Math.floor(secNum / 3600);
+        // let minutes = Math.floor((secNum - (hours * 3600)) / 60);
+        // let seconds = secNum - (hours * 3600) - (minutes * 60);
+        //
+        // if (hours < 10) {
+        //     hours = `0${hours}`;
+        // }
+        // if (minutes < 10) {
+        //     minutes = `0${minutes}`;
+        // }
+        // if (seconds < 10) {
+        //     seconds = `0${seconds}`;
+        // }
+        // return hours + ':' + minutes + ':' + seconds;
+
+        d = Number(d);
+
+        const h = Math.floor(d / 3600);
+        const m = Math.floor(d % 3600 / 60);
+        const s = Math.floor(d % 3600 % 60);
+
+        return ((h > 0
+            ? h + ":" + (m < 10
+                ? "0"
+                : "")
+            : "") + m + ":" + (s < 10
+            ? "0"
+            : "") + s);
     }
 
     increaseTime() {
-        console.log("in");
-        if(this.state.current < 1 && this.state.isPlaying) {
+        if (this.state.current < this.state.total && this.state.isPlaying) {
             this.setState({
-                current: this.state.current + 0.001
+                current: this.state.current + 1,
+                position: ((this.state.current + 1) / this.state.total),
+                currentTotal: this.state.currentTotal - 1
             })
-            console.log("up");
         }
     }
 
     setFlow() {
-        console.log("set flow")
-        console.log(this);
-        let titleWidth = document.getElementById("Music-Title").offsetWidth;
-        let artistWidth = document.getElementById("Music-Artist").offsetWidth;
-        let viewPortWidth = window.innerWidth || document.body.clientWidth;
+        const titleWidth = ReactDOM.findDOMNode(this.singleTitle).offsetWidth;
+        const artistWidth = ReactDOM.findDOMNode(this.singleArtist).offsetWidth;
+        const viewPortWidth = window.innerWidth || document.body.clientWidth;
 
         let titleOverflow;
         let artistOverflow;
-
-        console.log(titleWidth + ", " + viewPortWidth);
 
         // 곡 제목의 길이가, 뷰포트 너비보다 길면 flow시킨다.
         if (titleWidth > viewPortWidth) {
@@ -77,64 +120,8 @@ class MusicPlay extends Component {
             }
         });
 
-        if (titleOverflow && artistOverflow) {
-            // title과 artist모두 overflow라면 다른 marquee keyframes적용
-            // title 설정
-            document.getElementById("Music-Title").style.paddingRight = "80px";
-            titleWidth = document.getElementById("Music-Title").offsetWidth;
-            document.getElementById("flowTextContainer-Title").style.width = (titleWidth * 2) + "px";
-            document.getElementById("flowText-H1-Title").style.width = (titleWidth * 2) + "px";
-            document.getElementById("flowTextContainer-Title").style.animation = "marqueeTitle 30s linear infinite";
-
-            // artist 설정
-            document.getElementById("Music-Artist").style.paddingRight = "80px";
-            artistWidth = document.getElementById("Music-Artist").offsetWidth;
-            document.getElementById("flowTextContainer-Artist").style.width = (artistWidth * 2) + "px";
-            document.getElementById("flowText-H1-Artist").style.width = (artistWidth * 2) + "px";
-            document.getElementById("flowTextContainer-Artist").style.animation = "marqueeArtist 30s linear infinite";
-        } else if (titleOverflow) {
-            // title만 overflow
-            document.getElementById("Music-Title").style.paddingRight = "80px";
-            titleWidth = document.getElementById("Music-Title").offsetWidth;
-            document.getElementById("flowTextContainer-Title").style.width = (titleWidth * 2) + "px";
-            document.getElementById("flowText-H1-Title").style.width = (titleWidth * 2) + "px";
-            document.getElementById("flowTextContainer-Title").style.animation = "marquee 15s linear infinite";
-
-            // artist에서 animation등 제거
-            document.getElementById("Music-Artist").style.paddingRight = "0";
-            document.getElementById("flowTextContainer-Artist").style.width = "auto";
-            document.getElementById("flowText-H1-Artist").style.width = "auto";
-            document.getElementById("flowTextContainer-Artist").style.animation = "";
-        } else if (artistOverflow) {
-            // artist만 overflow
-            document.getElementById("Music-Artist").style.paddingRight = "80px";
-            artistWidth = document.getElementById("Music-Artist").offsetWidth;
-            document.getElementById("flowTextContainer-Artist").style.width = (artistWidth * 2) + "px";
-            document.getElementById("flowText-H1-Artist").style.width = (artistWidth * 2) + "px";
-            document.getElementById("flowTextContainer-Artist").style.animation = "marquee 15s linear infinite";
-
-            // title에서 animation등 제거
-            document.getElementById("Music-Title").style.paddingRight = "0";
-            document.getElementById("flowTextContainer-Title").style.width = "auto";
-            document.getElementById("flowText-H1-Title").style.width = "auto";
-            document.getElementById("flowTextContainer-Title").style.animation = "";
-        } else {
-            // artist에서 animation등 제거
-            document.getElementById("Music-Artist").style.paddingRight = "0";
-            document.getElementById("flowTextContainer-Artist").style.width = "auto";
-            document.getElementById("flowText-H1-Artist").style.width = "auto";
-            document.getElementById("flowTextContainer-Artist").style.animation = "";
-
-            // title에서 animation등 제거
-            document.getElementById("Music-Title").style.paddingRight = "0";
-            document.getElementById("flowTextContainer-Title").style.width = "auto";
-            document.getElementById("flowText-H1-Title").style.width = "auto";
-            document.getElementById("flowTextContainer-Title").style.animation = "";
-        }
-
         // 설정을 완료했음을 설정
         this.setState({setOverFlow: true});
-
     }
 
     componentDidUpdate() {
@@ -157,30 +144,47 @@ class MusicPlay extends Component {
 
     render() {
         const singleTitle = (
-            <span className="flowText" id="Music-Title">{this.state.title}</span>
+            <h1 className='Marquee-content' ref= {(ref) => {this.singleTitle = ref;}}>{this.state.title}</h1>
         );
         const singleArtist = (
-            <span className="flowText" id="Music-Artist">{this.state.artist}</span>
-        )
+            <h1 className='Marquee-content' ref= {(ref) => {this.singleArtist = ref}}>{this.state.artist}{this.state.artist}{this.state.artist}{this.state.artist}{this.state.artist}{this.state.artist}{this.state.artist}</h1>
+        );
         return (
-            <div className="MusicPlay-Div">
-                <h1 className="flowText-H1" id="flowText-H1-Title">
-                    <div className="flowTextContainer" id="flowTextContainer-Title">
-                        {singleTitle}
-                        {this.state.overflow.title
-                            ? singleTitle
-                            : ""}
-                    </div>
-                </h1>
-                <h1 className="flowText-H1" id="flowText-H1-Artist">
-                    <div className="flowTextContainer" id="flowTextContainer-Artist">
-                        {singleArtist}
-                        {this.state.overflow.artist
-                            ? singleArtist
-                            : ""}
-                    </div>
-                </h1>
-                <Progress current={this.state.current} end={this.state.end}/>
+            <div className='MusicPlay-Div'>
+                <div>
+                    {this.state.overflow.artist
+                        ? (
+                            <MarqueeDouble step={1} ref= {(ref => {this.artistMarquee = ref})} autoStart={true} onStart={() => {
+                                if (this.titleMarquee != undefined) {
+                                    this.artistMarquee.stop();
+                                    this.titleMarquee.delay();
+                                }
+                            }}>
+                                {singleArtist}
+                            </MarqueeDouble>
+                        )
+                        : singleArtist
+}
+                </div>
+                <div>
+                    {this.state.overflow.title
+                        ? (
+                            <MarqueeDouble step={1} ref= {(ref => {this.titleMarquee = ref})} autoStart={!this.state.overflow.artist} onStart={() => {
+                                if (this.artistMarquee != undefined) {
+                                    this.titleMarquee.stop();
+                                    this.artistMarquee.delay();
+                                }
+                            }}>
+                                {singleTitle}
+                            </MarqueeDouble>
+                        )
+                        : singleTitle
+}
+                </div>
+
+                <Progress current={this.secondToHms(this.state.current / 10)} total={this.secondToHms(this.state.currentTotal / 10)} position={this.state.position} onClick={(event) => {
+                    this.handlePlay(event)
+                }}/>
             </div>
         );
     }

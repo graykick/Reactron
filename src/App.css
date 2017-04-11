@@ -1,3 +1,7 @@
+* {
+    color: white;
+}
+
 .App {
     text-align: center;
 }
@@ -20,6 +24,10 @@
 
 body {
     background-color: black;
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 .MusicPlay-Div {
@@ -57,8 +65,10 @@ body {
 
 .progress {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 50px;
     color: white;
+    display: flex;
+    align-items: center;
 }
 
 .progress progress[value] {
@@ -69,6 +79,7 @@ body {
     height: 20px;
     margin-left: 4px;
     margin-right: 4px;
+    flex: 10 0 0%;
 }
 
 .progress progress[value]::-webkit-progress-bar {
@@ -81,6 +92,11 @@ body {
     background-color: rgb(243, 139, 114);
     border-radius: 2px;
     background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+.progress span {
+    margin: 10px;
+    flex: 1 0 0%;
 }
 
 .wrapper p {}
@@ -99,11 +115,11 @@ body {
 }
 
 @keyframes marqueeTitle {
-    0% {}
-    5% {
+    /*0% {}*/
+    0% {
         left: 0;
     }
-    45% {
+    48% {
         left: -50%;
     }
     100% {}
@@ -111,17 +127,54 @@ body {
 
 @keyframes marqueeArtist {
     0% {}
-    55% {
+    50% {
         left: 0;
     }
-    95% {
+    98% {
         left: -50%;
     }
-    100% {}
+    /*100% {}*/
 }
 
 .white {
     color: white;
+}
+
+.MarqueeC-Div {
+    position: relative;
+    text-align: center;
+}
+
+.Marquee-Mover {
+    position: relative;
+    box-sizing: padding-box;
+    text-align: center;
+}
+
+.Marquee-Child-Double {
+    display: inline-block;
+    box-sizing: padding-box;
+    padding-right: 80px;
+}
+
+.Marquee-Child-Single {
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.Marquee-Table {
+    margin: 0 auto;
+    border-spacing: 0;
+}
+
+.Marquee-Table td {
+    margin: 0;
+    padding: 0;
+}
+
+.Marquee-content {
+    white-space: nowrap;
+    display: inline-block;
 }
 
 @keyframes App-logo-spin {
