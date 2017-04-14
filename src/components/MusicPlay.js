@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import Progress from './Progress';
 import Marquee from './Marquee'
-import MarqueeDouble from './MarqueeDouble'
+import MarqueeDouble from 'react-marquee-double'
 
 import '../App.css';
 
@@ -147,7 +147,7 @@ class MusicPlay extends Component {
             <h1 className='Marquee-content' ref= {(ref) => {this.singleTitle = ref;}}>{this.state.title}</h1>
         );
         const singleArtist = (
-            <h1 className='Marquee-content' ref= {(ref) => {this.singleArtist = ref}}>{this.state.artist}{this.state.artist}{this.state.artist}{this.state.artist}{this.state.artist}{this.state.artist}{this.state.artist}</h1>
+            <h1 className='Marquee-content' ref= {(ref) => {this.singleArtist = ref}}>{this.state.artist}</h1>
         );
         return (
             <div className='MusicPlay-Div'>
@@ -158,6 +158,8 @@ class MusicPlay extends Component {
                                 if (this.titleMarquee != undefined) {
                                     this.artistMarquee.stop();
                                     this.titleMarquee.delay();
+                                } else {
+                                    this.artistMarquee.delay();
                                 }
                             }}>
                                 {singleArtist}
@@ -169,10 +171,13 @@ class MusicPlay extends Component {
                 <div>
                     {this.state.overflow.title
                         ? (
-                            <MarqueeDouble step={1} ref= {(ref => {this.titleMarquee = ref})} autoStart={!this.state.overflow.artist} onStart={() => {
+                            <MarqueeDouble step={1} interval={10} ref= {(ref => {this.titleMarquee = ref})} autoStart={!this.state.overflow.artist} onStart={() => {
                                 if (this.artistMarquee != undefined) {
                                     this.titleMarquee.stop();
                                     this.artistMarquee.delay();
+                                } else {
+                                    this.titleMarquee.delay();
+                                    console.log("delay");
                                 }
                             }}>
                                 {singleTitle}
