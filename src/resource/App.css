@@ -1,0 +1,163 @@
+* {
+    color: white;
+    font-family: sans-serif;
+}
+
+body {
+    background-color: black;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+html, body, #root, .appDiv {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.MusicPlay-Div {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    /*height: 100%;*/
+}
+
+.MusicInfo {
+    flex: 2 0 0%;
+}
+
+.FileInfo {
+    flex: 1 0 0%;
+}
+
+.flowTextContainer {
+    position: relative;
+    text-align: center;
+    display: inline-block;
+    /*min-width: 200%;*/
+    overflow: hidden;
+    animation-direction: normal;
+}
+
+.flowText {
+    white-space: nowrap;
+    float: left;
+    color: white;
+    box-sizing: padding-box;
+    /*float: left;*/
+    /*padding-right: 20px;
+    box-sizing: padding-box;*/
+    /*width: 50%;*/
+}
+
+.FlowText {
+    white-space: nowrap;
+}
+
+.flowText-H1 {
+    position: relative;
+    overflow: hidden;
+}
+
+.progress {
+    flex: 1 0 0%;
+    text-align: center;
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.progress progress[value] {
+    /* Reset the default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    width: 390px;
+    height: 18px;
+    margin-left: 4px;
+    margin-right: 4px;
+    flex: 10 0 0%;
+}
+
+.progress progress[value]::-webkit-progress-bar {
+    background-color: black;
+    border-radius: 1px;
+    border: 0.1px solid white;
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;*/
+}
+
+.progress progress[value]::-webkit-progress-value {
+    /*background-color: white;*/
+    background: repeating-linear-gradient( 90deg, #FFF, #FFF 6px, #000 1px, #000 7px);
+    /*border-radius: 2px;*/
+    /*background-size: 35px 20px, 100% 100%, 100% 100%;*/
+    background-size: 100% 100%;
+    margin: 1px;
+    height: 14px;
+}
+
+.progress span {
+    flex: 1 0 0%;
+}
+
+.wrapper p {}
+
+.white {
+    color: white;
+}
+
+.MarqueeC-Div {
+    position: relative;
+    text-align: center;
+}
+
+.Marquee-Mover {
+    position: relative;
+    box-sizing: padding-box;
+    text-align: center;
+}
+
+.Marquee-Child-Double {
+    display: inline-block;
+    box-sizing: padding-box;
+    padding-right: 80px;
+}
+
+.Marquee-Child-Single {
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.Marquee-Table {
+    margin: 0 auto;
+    border-spacing: 0;
+}
+
+.Marquee-Table td {
+    margin: 0;
+    padding: 0;
+}
+
+.Marquee-content {
+    white-space: nowrap;
+    font-size: 3rem;
+    margin-top: 0;
+    display: inline-block;
+}
+
+.FileInfo-div {
+    display: flex;
+    align-items: center;
+}
+
+.FileInfo-bit, .FileInfo-format {
+    flex: 1 0 0%;
+}
+
+.FileInfo-samplingRate {
+    flex: 10 0 0%;
+}

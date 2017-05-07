@@ -15,6 +15,49 @@
     -->
     <title>Reacton</title>
   </head>
+  <script>
+     var remote = require('electron').remote;
+    //  var net = require('net');
+    //  var momo = "momo";
+    //  var client = net.connect({
+    //      port: 6600,
+    //      host: 'localhost'
+    //  }, function() {
+    //      console.log('Client connected');
+    //  });
+     //
+    //  client.on('data', (data) => {
+    //     //  console.log('---------------');
+    //     //  var data1 = data.toString().split('\n');
+    //     //  console.log(data1);
+    //      // //var data1 = data.toString();
+    //      // var why = "why?";
+    //      // console.log(typeof data1);
+    //      // var title = new String(data1[5]);
+    //      // var titleArr = title.split(':');
+    //      // var realTitle = titleArr[1];
+    //      // console.log(realTitle);
+    //      //
+    //      // try {
+    //      //   var data2 = parseArrayMessage(data.toString());
+    //      //   console.log(typeof data2);
+    //      // } catch (e) {
+    //      // //  console.error(e);
+    //      // } finally {
+    //      //
+    //      // }
+    //  });
+    //  client.write('stop\n');
+    //  client.write('currentsong\n');
+    //  client.write('playid\n"1"\n');
+
+     console.log(remote.getGlobal('sharedObj').prop1);
+     console.log("remote test");
+     remote.getGlobal('sharedObj').prop1 = 125;
+
+     var ipcRenderer = require('electron').ipcRenderer;
+     ipcRenderer.send('show-prop1');
+  </script>
   <body>
     <div id="root"></div>
     <!-- <script src="public/js/bundle.js">
