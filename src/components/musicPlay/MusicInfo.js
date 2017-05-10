@@ -61,12 +61,18 @@ class MusicInfo extends Component {
         this.setState({setOverFlow: true});
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(this.props.title !== nextProps.title) {
+            this.setState({
+                setOverFlow: false
+            })
+        }
+    }
+
     componentDidUpdate() {
         if (!this.state.setOverFlow) {
             this.setFlow();
         }
-        console.log(this.state.setOverFlow);
-        console.log(this.state.overflow.title);
     }
 
     componentDidMount() {
