@@ -55,7 +55,7 @@ class MarqueeDouble extends Component {
 
         this.moveTo = {
             left: () => {
-                this.setState({left: 0});
+                this.setState({left: -1});
             },
             right: () => {
                 this.setState({
@@ -96,7 +96,7 @@ class MarqueeDouble extends Component {
     }
 
     delay() {
-        const {delay} = this.props;
+        const { delay } = this.props;
         this.stop();
         setTimeout(() => {
             this.start();
@@ -123,16 +123,11 @@ class MarqueeDouble extends Component {
         } = this.props;
 
         // 이벤트 발생
-        if ((direction == 'left' && left == 0) || (direction == 'right' && right == containerWidth - viewPortWidth)) {
+        if ((direction == 'left' && left == -1) || (direction == 'right' && right == containerWidth - viewPortWidth)) {
             onStart();
-
-            console.log("on start" + left);
         }
-        console.log("on start after");
 
         if ((direction == 'left' && left < -moverWidth / 2) || (direction == 'right' && right < (moverWidth - (singleWidth + viewPortWidth)))) {
-            console.log("in if");
-            console.log(left)
             this.moveTo[direction]();
             return;
         }
