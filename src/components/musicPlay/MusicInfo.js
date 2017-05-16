@@ -1,4 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {
+    Component,
+    PropTypes
+} from 'react';
 import ReactDOM from 'react-dom';
 import MarqueeDouble from './MarqueeDouble';
 
@@ -21,7 +24,9 @@ class MusicInfo extends Component {
         };
 
         window.onresize = () => {
-            this.setState({setOverFlow: false})
+            this.setState({
+                setOverFlow: false
+            })
         }
     }
 
@@ -58,16 +63,30 @@ class MusicInfo extends Component {
         });
 
         // 설정을 완료했음을 설정
-        this.setState({setOverFlow: true});
+        this.setState({
+            setOverFlow: true
+        });
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.title !== nextProps.title) {
+        if (this.props.title !== nextProps.title) {
+            return true;
+        }
+        return false;
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.title !== nextProps.title) {
             this.setState({
                 setOverFlow: false
-            })
+            });
+
+            return true;
         }
+        return false;
     }
+
+
 
     componentDidUpdate() {
         if (!this.state.setOverFlow) {
@@ -82,50 +101,106 @@ class MusicInfo extends Component {
     }
 
     render() {
-        const singleTitle = (
-            <h1 className='Marquee-content' ref= {(ref) => {this.singleTitle = ref;}}>{this.props.title}</h1>
+        const singleTitle = ( <
+            h1 className = 'Marquee-content'
+            key = {
+                this.props.title
+            }
+            ref = {
+                (ref) => {
+                    this.singleTitle = ref;
+                }
+            } > {
+                this.props.title
+            } < /h1>
         );
-        const singleArtist = (
-            <h1 className='Marquee-content' ref= {(ref) => {this.singleArtist = ref}}>{this.props.artist}</h1>
+        const singleArtist = ( <
+            h1 className = 'Marquee-content'
+            key = {
+                this.props.artist
+            }
+            ref = {
+                (ref) => {
+                    this.singleArtist = ref
+                }
+            } > {
+                this.props.artist
+            } < /h1>
         );
-        return (
-            <div className='MusicInfo'>
-                <div>
-                    {this.state.overflow.artist
-                        ? (
-                            <MarqueeDouble step={1} interval={33} ref= {(ref => {this.artistMarquee = ref})} autoStart={true} onStart={() => {
-                                if (this.titleMarquee != undefined) {
-                                    this.artistMarquee.stop();
-                                    this.titleMarquee.delay();
-                                } else {
-                                    this.artistMarquee.delay();
-                                }
-                            }}>
-                                {singleArtist}
-                            </MarqueeDouble>
-                        )
-                        : singleArtist
-}
-                </div>
-                <div>
-                    {this.state.overflow.title
-                        ? (
-                            <MarqueeDouble step={1} interval={33} ref= {(ref => {this.titleMarquee = ref})} autoStart={!this.state.overflow.artist} onStart={() => {
-                                if (this.artistMarquee != undefined) {
-                                    this.titleMarquee.stop();
-                                    this.artistMarquee.delay();
-                                } else {
-                                    this.titleMarquee.delay();
-                                    console.log("delay");
-                                }
-                            }}>
-                                {singleTitle}
-                            </MarqueeDouble>
-                        )
-                        : singleTitle
-}
-                </div>
-            </div>
+        console.info("ASDAsdASDaasdSDFFDGSDFDFG");
+
+        return ( <
+            div className = 'MusicInfo' >
+            <
+            div > {
+                this.state.overflow.artist ?
+                ( <
+                    MarqueeDouble step = {
+                        1
+                    }
+                    interval = {
+                        33
+                    }
+                    ref = {
+                        (ref => {
+                            this.artistMarquee = ref
+                        })
+                    }
+                    autoStart = {
+                        true
+                    }
+                    onStart = {
+                        () => {
+                            if (this.titleMarquee != undefined) {
+                                this.artistMarquee.stop();
+                                this.titleMarquee.delay();
+                            } else {
+                                this.artistMarquee.delay();
+                            }
+                        }
+                    } > {
+                        singleArtist
+                    } <
+                    /MarqueeDouble>
+                ) :
+                    singleArtist
+            } <
+            /div> <
+            div > {
+                this.state.overflow.title ?
+                ( <
+                    MarqueeDouble step = {
+                        1
+                    }
+                    interval = {
+                        33
+                    }
+                    ref = {
+                        (ref => {
+                            this.titleMarquee = ref
+                        })
+                    }
+                    autoStart = {!this.state.overflow.artist
+                    }
+                    onStart = {
+                        () => {
+                            if (this.artistMarquee != undefined) {
+                                this.titleMarquee.stop();
+                                this.artistMarquee.delay();
+                            } else {
+                                this.titleMarquee.delay();
+                                console.log("delay");
+                            }
+                        }
+                    } > {
+                        singleTitle
+                    } <
+                    /MarqueeDouble>
+                ) :
+                    singleTitle
+            } <
+            /div> <
+            /div>
         );
     }
 }

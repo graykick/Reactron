@@ -104,7 +104,7 @@ class MusicPlay extends Component {
     render() {
         return (
             <div className='MusicPlay-Div'>
-                <MusicInfo title={this.state.title} artist={this.state.artist}/>
+                <MusicInfo key={this.state.title + this.state.artist} title={this.state.title} artist={this.state.artist}/>
                 <FileInfo bit={this.state.bit} samplingRate={`${this.state.samplingRate} kHz`} format={this.state.format}></FileInfo>
                 <Progress current={this.secondToHms(this.state.current)} total={this.secondToHms(this.state.currentTotal)} position={this.state.position}/>
             </div>
