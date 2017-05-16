@@ -26,7 +26,7 @@ class MusicInfo extends Component {
         window.onresize = () => {
             this.setState({
                 setOverFlow: false
-            })
+            });
         }
     }
 
@@ -54,6 +54,9 @@ class MusicInfo extends Component {
             artistOverflow = false;
         }
 
+        console.info("artist = " + artistOverflow + ", title = " + titleOverflow)
+
+
         // 비동기 메서드
         this.setState({
             overflow: {
@@ -76,11 +79,13 @@ class MusicInfo extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.overflow.title != nextState.overflow.title) {
+            return true;
+        }
+        if (this.state.overflow.artist != nextState.overflow.artist) {
+            return true;
+        }
         if (this.props.title !== nextProps.title) {
-            this.setState({
-                setOverFlow: false
-            });
-
             return true;
         }
         return false;
