@@ -1,12 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
-
 const defaultPropsFunc = (funcName) => {
     return () => {
         console.warn(`${funcName} is not defined`);
     }
 }
-
 const propTypes = {
     loop: React.PropTypes.bool,
     space: React.PropTypes.number,
@@ -19,7 +17,6 @@ const propTypes = {
     delay: React.PropTypes.number,
     autoStart: React.PropTypes.bool
 };
-
 const defaultProps = {
     loop: true,
     space: 100,
@@ -32,17 +29,16 @@ const defaultProps = {
     delay: 2000,
     autoStart: false
 };
-
 class MarqueeDouble extends Component {
     constructor(props) {
         super(props);
         this.mover;
+        this.delayer;
         this.widths = {
             singleWidth: undefined,
             containerWidth: undefined,
             moverWidth: undefined
         };
-
         this.state = {
             left: -1,
             right: -1,
@@ -52,7 +48,6 @@ class MarqueeDouble extends Component {
             viewPortWidth: -1,
             isMove: this.props.autoStart
         };
-
         this.moveTo = {
             left: () => {
                 this.setState({left: -1});
@@ -63,7 +58,6 @@ class MarqueeDouble extends Component {
                 });
             }
         }
-
         this.direction = {
             left: () => {
                 this.setState({
@@ -78,10 +72,8 @@ class MarqueeDouble extends Component {
                 // this.moverDivNode.style.transform = `translateX(${this.state.right}px)`;
             }
         }
-
         this.move = this.move.bind(this);
     }
-
     start() {
         const {isMove} = this.state;
         if (!isMove) {
@@ -89,20 +81,17 @@ class MarqueeDouble extends Component {
             this.setState({isMove: true})
         }
     }
-
     stop() {
         clearInterval(this.mover);
         this.setState({isMove: false})
     }
-
     delay() {
-        const { delay } = this.props;
+        const {delay} = this.props;
         this.stop();
-        setTimeout(() => {
+        this.delayer = setTimeout(() => {
             this.start();
         }, delay);
     }
-
     move() {
         const {
             left,
@@ -121,40 +110,30 @@ class MarqueeDouble extends Component {
             space,
             delay
         } = this.props;
-
         // 이벤트 발생
         if ((direction == 'left' && left == -1) || (direction == 'right' && right == containerWidth - viewPortWidth)) {
             onStart();
         }
-
         if ((direction == 'left' && left < -moverWidth / 2) || (direction == 'right' && right < (moverWidth - (singleWidth + viewPortWidth)))) {
             this.moveTo[direction]();
             return;
         }
-
         this.direction[direction]();
     }
-
     componentDidMount() {
         console.log("did monut");
-
         const {interval, direction, autoStart, delay} = this.props;
-
         ReactDOM.findDOMNode(this.single).style.display = "inline-block";
         this.singleNode = ReactDOM.findDOMNode(this.single);
         this.moverDivNode = ReactDOM.findDOMNode(this.moverDiv);
         this.containerNode = ReactDOM.findDOMNode(this.container);
-
         const singleWidth = this.singleNode.offsetWidth;
         console.log("single width = " + singleWidth);
-
         this.moverDivNode.style.width = `${singleWidth * 2}px`;
         this.containerNode.style.width = `${singleWidth * 2}px`;
-
         const moverWidth = this.moverDivNode.offsetWidth;
         const containerWidth = this.containerNode.offsetWidth;
         console.log("container width = " + moverWidth);
-
         const viewPortWidth = window.innerWidth || document.body.clientWidth;
         this.setState({singleWidth: singleWidth, moverWidth: moverWidth, containerWidth: containerWidth, viewPortWidth: viewPortWidth});
         console.log(viewPortWidth + ", " + singleWidth + ", " + moverWidth);
@@ -164,7 +143,6 @@ class MarqueeDouble extends Component {
                 right: containerWidth - viewPortWidth
             })
         }
-
         if (autoStart) {
             if (delay > 0) {
                 this.delay();
@@ -172,13 +150,12 @@ class MarqueeDouble extends Component {
                 this.mover = setInterval(this.move, interval);
             }
         }
-
     }
-
     componentWillUnmount() {
         clearInterval(this.mover);
+        clearTimeout(this.delayer);
+        console.info("MarqueeDouble unmount")
     }
-
     render() {
         const {space, direction} = this.props;
         const {left} = this.state;
@@ -193,7 +170,6 @@ class MarqueeDouble extends Component {
         const marqueeStyle = {
             transform: `translateX(${left}px)`
         }
-
         const single = (
             <span className="Marquee-Child-Single" style={style} ref= {(ref => {this.single = ref})}>{this.props.children}</span>
         );
@@ -205,14 +181,16 @@ class MarqueeDouble extends Component {
                     this.moverDiv = ref
                 }}>
                     <table className="Marquee-Table">
-                        <tr>
-                            <td>
-                                {single}
-                            </td>
-                            <td>
-                                {single}
-                            </td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {single}
+                                </td>
+                                <td>
+                                    {single}
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

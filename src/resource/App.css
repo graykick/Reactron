@@ -1,6 +1,8 @@
 * {
     color: white;
     font-family: sans-serif;
+    transition: all 1 ease-in;
+    transform: translateY(0%);
 }
 
 body {
@@ -28,6 +30,27 @@ html, body, #root, .appDiv {
 
 .MusicInfo {
     flex: 2 0 0%;
+    height: 180px;
+    max-height: 180px;
+    overflow: hidden;
+}
+
+.MusicInfo-Content-Container {
+    position: relative;
+    z-index: 1;
+    background-color: black;
+    overflow: hidden;
+    height: 90px;
+}
+
+.MusicInfo-artist {
+    position: relative;
+    z-index: 0;
+}
+
+.MusicInfo-title {
+    position: relative;
+    z-index: 0;
 }
 
 .FileInfo {
@@ -160,4 +183,109 @@ html, body, #root, .appDiv {
 
 .FileInfo-samplingRate {
     flex: 10 0 0%;
+}
+
+
+/*react css movingUp transition animaion*/
+
+.movingUp {
+    transform: translateY(0%);
+    transition: all 1s ease-in;
+}
+
+.movingUp-enter {
+    transform: translateY(0%);
+}
+
+.movingUp-enter.movingUp-enter-active {
+    animation: enterAnimation 1s linear infinite;
+}
+
+.movingUp-appear {
+    transform: translateY(0%);
+}
+
+.movingUp-appear.movingUp-appear-active {}
+
+.movingUp-leave {
+    transform: translateY(0%);
+    transition: all 1s ease-in;
+}
+
+.movingUp-leave.movingUp-leave-active {
+    transform: translateY(-500%);
+    transition: all 1s ease-in;
+}
+
+@keyframes enterAnimation {
+    0% {
+        transform: translateY(200%);
+    }
+    50% {
+        transform: translateY(50%);
+    }
+    75% {
+        transform: translateY(-30%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+
+/*react css movingDown transition animaion*/
+
+.movingDown {
+    transform: translateY(0%);
+    transition: all 1s ease-in;
+}
+
+.movingDown-enter {
+    transform: translateY(-100%);
+    /*transition: all 1 ease-in;*/
+}
+
+.movingDown-enter.movingDown-enter-active {
+    /*transform: translateY(0%);*/
+    /*transition: all 1s ease-in;*/
+    animation: movingDownenterAnimation 3s ease-out infinite;
+}
+
+.movingDown-appear {
+    /*transform: translateY(0%);*/
+}
+
+.movingDown-appear.movingDown-appear-active {
+    /*transition: all 1 ease-in;*/
+}
+
+.movingDown-title-leave {
+    display: none;
+}
+
+.movingDown-title-leave.movingDown-title-leave-active {
+    display: none;
+}
+
+.movingDown-leave {
+    transform: translateY(-100%);
+}
+
+.movingDown-leave.movingDown-leave-active {
+    transform: translateY(0%);
+    transition: all 0.5s ease-in;
+
+
+}
+
+@keyframes movingDownenterAnimation {
+    0% {
+        transform: translateY(-100%);
+    }
+    75% {
+        transform: translateY(10%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
 }

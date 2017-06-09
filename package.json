@@ -5,6 +5,7 @@
   "main": "src/electron-starter.js",
   "dependencies": {
     "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.5.2",
     "react-dom": "^15.4.2",
     "react-marquee-double": "git+https://git@github.com/graykick/react-marquee-double.git"
   },

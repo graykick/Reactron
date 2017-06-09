@@ -1,13 +1,10 @@
-import React, {
-    Component,
-    PropTypes
-} from 'react';
+import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import MarqueeDouble from './MarqueeDouble';
-
+import '../../resource/App.css';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 const propTypes = {};
 const defaultProps = {};
-
 class MusicInfo extends Component {
     constructor(props) {
         super(props);
@@ -22,25 +19,20 @@ class MusicInfo extends Component {
             },
             setOverFlow: false
         };
-
         window.onresize = () => {
-            this.setState({
-                setOverFlow: false
-            });
+            this.setState({setOverFlow: false});
         }
     }
-
     setFlow() {
         const titleWidth = ReactDOM.findDOMNode(this.singleTitle).offsetWidth;
         const artistWidth = ReactDOM.findDOMNode(this.singleArtist).offsetWidth;
         const viewPortWidth = window.innerWidth || document.body.clientWidth;
-
-        console.log("viewPortWidth : " + viewPortWidth);
-        console.log("titleWidth : " + titleWidth);
-
+        console.info(this.singleTitle);
+        console.info(ReactDOM.findDOMNode(this.singleTitle));
+        console.info("viewPortWidth : " + viewPortWidth);
+        console.info("titleWidth : " + titleWidth);
         let titleOverflow;
         let artistOverflow;
-
         // 곡 제목의 길이가, 뷰포트 너비보다 길면 flow시킨다.
         if (titleWidth > viewPortWidth) {
             titleOverflow = true;
@@ -53,10 +45,7 @@ class MusicInfo extends Component {
         } else {
             artistOverflow = false;
         }
-
         console.info("artist = " + artistOverflow + ", title = " + titleOverflow)
-
-
         // 비동기 메서드
         this.setState({
             overflow: {
@@ -64,20 +53,14 @@ class MusicInfo extends Component {
                 artist: artistOverflow
             }
         });
-
         // 설정을 완료했음을 설정
-        this.setState({
-            setOverFlow: true
-        });
+        this.setState({setOverFlow: true});
     }
-
     componentWillReceiveProps(nextProps) {
         if (this.props.title !== nextProps.title) {
-            return true;
+            this.setState({setOverFlow: false});
         }
-        return false;
     }
-
     shouldComponentUpdate(nextProps, nextState) {
         if (this.state.overflow.title != nextState.overflow.title) {
             return true;
@@ -90,122 +73,52 @@ class MusicInfo extends Component {
         }
         return false;
     }
-
-
-
     componentDidUpdate() {
         if (!this.state.setOverFlow) {
             this.setFlow();
         }
     }
-
     componentDidMount() {
         if (!this.state.setOverFlow) {
             this.setFlow();
         }
+        console.log("fuck");
     }
-
     render() {
-        const singleTitle = ( <
-            h1 className = 'Marquee-content'
-            key = {
-                this.props.title
-            }
-            ref = {
-                (ref) => {
-                    this.singleTitle = ref;
-                }
-            } > {
-                this.props.title
-            } < /h1>
+        console.info("MusicInfo rensder");
+        const singleTitle = (
+            <h1 className='Marquee-content' key={this.props.title} ref= {(ref) => {this.singleTitle = ref;} }>
+                {this.props.title}</h1>
         );
-        const singleArtist = ( <
-            h1 className = 'Marquee-content'
-            key = {
-                this.props.artist
-            }
-            ref = {
-                (ref) => {
-                    this.singleArtist = ref
-                }
-            } > {
-                this.props.artist
-            } < /h1>
+        const singleArtist = (
+            <h1 className='Marquee-content' key={this.props.artist} ref= {(ref) => {this.singleArtist = ref;} }>
+                {this.props.artist}</h1 >
         );
-        console.info("ASDAsdASDaasdSDFFDGSDFDFG");
-
-        return ( <
-            div className = 'MusicInfo' >
-            <
-            div > {
-                this.state.overflow.artist ?
-                ( <
-                    MarqueeDouble step = {
-                        1
-                    }
-                    interval = {
-                        33
-                    }
-                    ref = {
-                        (ref => {
-                            this.artistMarquee = ref
-                        })
-                    }
-                    autoStart = {
-                        true
-                    }
-                    onStart = {
-                        () => {
-                            if (this.titleMarquee != undefined) {
-                                this.artistMarquee.stop();
-                                this.titleMarquee.delay();
-                            } else {
-                                this.artistMarquee.delay();
-                            }
-                        }
-                    } > {
-                        singleArtist
-                    } <
-                    /MarqueeDouble>
-                ) :
-                    singleArtist
-            } <
-            /div> <
-            div > {
-                this.state.overflow.title ?
-                ( <
-                    MarqueeDouble step = {
-                        1
-                    }
-                    interval = {
-                        33
-                    }
-                    ref = {
-                        (ref => {
-                            this.titleMarquee = ref
-                        })
-                    }
-                    autoStart = {!this.state.overflow.artist
-                    }
-                    onStart = {
-                        () => {
-                            if (this.artistMarquee != undefined) {
-                                this.titleMarquee.stop();
-                                this.artistMarquee.delay();
-                            } else {
-                                this.titleMarquee.delay();
-                                console.log("delay");
-                            }
-                        }
-                    } > {
-                        singleTitle
-                    } <
-                    /MarqueeDouble>
-                ) :
-                    singleTitle
-            } <
-            /div> <
-            /div>
+        const value = (
+            <span className="example" key={this.props.title}>{this.props.title}</span>
+        );
+        return (
+            <div className='MusicInfo'>
+                <div className="MusicInfo-Content-Container">
+                    <ReactCSSTransitionGroup transitionName="movingDown" transitionEnterTimeout={3000} transitionLeaveTimeout={500}>
+                        <div key={this.props.artist} className="MusicInfo-artist">
+                            {this.state.overflow.artist
+                                ? (
+                                    <MarqueeDouble step={1} interval={33} ref= {(ref => {this.artistMarquee = ref})} autoStart={true} onStart= {() => { if (this.titleMarquee != undefined) { this.artistMarquee.stop(); this.titleMarquee.delay(); } else { this.artistMarquee.delay(); } }}>{singleArtist}</MarqueeDouble>
+                                )
+                                : singleArtist}
+                        </div>
+                    </ReactCSSTransitionGroup>
+                </div>
+                <ReactCSSTransitionGroup transitionName="movingDown" transitionEnterTimeout={3000} transitionLeaveTimeout={500}>
+                    <div key={this.props.title} className="MusicInfo-title">{this.state.overflow.title
+                            ? (
+                                <MarqueeDouble step={1} interval={33} ref= {(ref => {this.titleMarquee = ref})} autoStart={!this.state.overflow.artist} onStart= {() => { if (this.artistMarquee != undefined) { this.titleMarquee.stop(); this.artistMarquee.delay(); } else { this.titleMarquee.delay(); } }}>{singleTitle}</MarqueeDouble>
+                            )
+                            : singleTitle}
+                    </div>
+                </ReactCSSTransitionGroup>
+            </div>
         );
     }
 }
