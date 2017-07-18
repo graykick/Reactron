@@ -121,22 +121,18 @@ class MarqueeDouble extends Component {
         this.direction[direction]();
     }
     componentDidMount() {
-        console.log("did monut");
         const {interval, direction, autoStart, delay} = this.props;
         ReactDOM.findDOMNode(this.single).style.display = "inline-block";
         this.singleNode = ReactDOM.findDOMNode(this.single);
         this.moverDivNode = ReactDOM.findDOMNode(this.moverDiv);
         this.containerNode = ReactDOM.findDOMNode(this.container);
         const singleWidth = this.singleNode.offsetWidth;
-        console.log("single width = " + singleWidth);
         this.moverDivNode.style.width = `${singleWidth * 2}px`;
         this.containerNode.style.width = `${singleWidth * 2}px`;
         const moverWidth = this.moverDivNode.offsetWidth;
         const containerWidth = this.containerNode.offsetWidth;
-        console.log("container width = " + moverWidth);
         const viewPortWidth = window.innerWidth || document.body.clientWidth;
         this.setState({singleWidth: singleWidth, moverWidth: moverWidth, containerWidth: containerWidth, viewPortWidth: viewPortWidth});
-        console.log(viewPortWidth + ", " + singleWidth + ", " + moverWidth);
         if (direction == 'right') {
             this.moverDivNode.style.right = `${containerWidth - viewPortWidth}px`;
             this.setState({
@@ -154,7 +150,6 @@ class MarqueeDouble extends Component {
     componentWillUnmount() {
         clearInterval(this.mover);
         clearTimeout(this.delayer);
-        console.info("MarqueeDouble unmount")
     }
     render() {
         const {space, direction} = this.props;

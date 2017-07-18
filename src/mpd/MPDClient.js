@@ -12,7 +12,6 @@ class MPDClient {
             this.callbackQueue.push((res) => {});
         });
         this.client.on('data', (res) => {
-            console.log(res.toString())
             this.receiveResponse(res)
         });
     }

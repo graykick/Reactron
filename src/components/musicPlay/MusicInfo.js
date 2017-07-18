@@ -27,10 +27,6 @@ class MusicInfo extends Component {
         const titleWidth = ReactDOM.findDOMNode(this.singleTitle).offsetWidth;
         const artistWidth = ReactDOM.findDOMNode(this.singleArtist).offsetWidth;
         const viewPortWidth = window.innerWidth || document.body.clientWidth;
-        console.info(this.singleTitle);
-        console.info(ReactDOM.findDOMNode(this.singleTitle));
-        console.info("viewPortWidth : " + viewPortWidth);
-        console.info("titleWidth : " + titleWidth);
         let titleOverflow;
         let artistOverflow;
         // 곡 제목의 길이가, 뷰포트 너비보다 길면 flow시킨다.
@@ -45,7 +41,6 @@ class MusicInfo extends Component {
         } else {
             artistOverflow = false;
         }
-        console.info("artist = " + artistOverflow + ", title = " + titleOverflow)
         // 비동기 메서드
         this.setState({
             overflow: {
@@ -82,10 +77,8 @@ class MusicInfo extends Component {
         if (!this.state.setOverFlow) {
             this.setFlow();
         }
-        console.log("fuck");
     }
     render() {
-        console.info("MusicInfo rensder");
         const singleTitle = (
             <h1 className='Marquee-content' key={this.props.title} ref= {(ref) => {this.singleTitle = ref;} }>
                 {this.props.title}</h1>

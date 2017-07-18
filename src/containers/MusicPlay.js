@@ -57,7 +57,6 @@ class MusicPlay extends Component {
     }
     getMPDStatus() {
         this.statusClient.sendCommand('status', (res) => {
-            console.log(res);
             if (res.songid !== this.state.songId) {
                 this.setSongData();
             }
@@ -65,7 +64,6 @@ class MusicPlay extends Component {
                 current: Math.floor(res.elapsed),
                 currentTotal: this.state.total - Math.floor(res.elapsed),
                 position: Math.floor(res.elapsed) / this.state.total
-                // songId: res.songid
             });
         });
     }
@@ -74,24 +72,18 @@ class MusicPlay extends Component {
             if(res.audio === undefined) {
                 return;
             }
-            console.info(res);
             const parseRes = res.audio.split(':');
             const samplingRate = Number(parseRes[0]) / 1000;
             const bit = parseRes[1];
             let animeDirection;
-            console.info(res.songid);
-            console.info(this.state.songId);
             if (Number(this.state.songId) < Number(res.songid)) {
-                console.info("up")
                 animeDirection = "movingUp";
             } else {
-                console.info("down")
                 animeDirection = "movingDown";
             }
             this.setState({bit: bit, samplingRate: samplingRate, songId: res.songid, animeDirection: animeDirection})
         });
         this.MPDClient.sendCommand('currentsong', (res) => {
-            console.info(res);
             if(res.file === undefined) {
                 return;
             }
@@ -108,7 +100,6 @@ class MusicPlay extends Component {
         clearInterval(this.counter);
     }
     render() {
-        console.info("at render : " + this.state.animeDirection);
         return (
             <div className='MusicPlay-Div'>
                 <MusicInfo title={this.state.title} artist={this.state.artist}/>
