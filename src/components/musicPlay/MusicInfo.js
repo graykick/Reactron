@@ -5,6 +5,10 @@ import '../../resource/App.css';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 const propTypes = {};
 const defaultProps = {};
+
+// 60프레임에 도달하기 위하여, Math.floor(1000 / 60)의 값을 interval 주기로 사용 
+const marqueeInterval = 16;
+
 class MusicInfo extends Component {
     constructor(props) {
         super(props);
@@ -97,7 +101,7 @@ class MusicInfo extends Component {
                         <div key={this.props.artist} className="MusicInfo-artist">
                             {this.state.overflow.artist
                                 ? (
-                                    <MarqueeDouble step={1} interval={33} ref= {(ref => {this.artistMarquee = ref})} autoStart={true} onStart= {() => { if (this.titleMarquee != undefined) { this.artistMarquee.stop(); this.titleMarquee.delay(); } else { this.artistMarquee.delay(); } }}>{singleArtist}</MarqueeDouble>
+                                    <MarqueeDouble step={1} interval={marqueeInterval} ref= {(ref => {this.artistMarquee = ref})} autoStart={true} onStart= {() => { if (this.titleMarquee != undefined) { this.artistMarquee.stop(); this.titleMarquee.delay(); } else { this.artistMarquee.delay(); } }}>{singleArtist}</MarqueeDouble>
                                 )
                                 : singleArtist}
                         </div>
@@ -106,7 +110,7 @@ class MusicInfo extends Component {
                 <ReactCSSTransitionGroup transitionName="movingDown" transitionEnterTimeout={3000} transitionLeaveTimeout={500}>
                     <div key={this.props.title} className="MusicInfo-title">{this.state.overflow.title
                             ? (
-                                <MarqueeDouble step={1} interval={33} ref= {(ref => {this.titleMarquee = ref})} autoStart={!this.state.overflow.artist} onStart= {() => { if (this.artistMarquee != undefined) { this.titleMarquee.stop(); this.artistMarquee.delay(); } else { this.titleMarquee.delay(); } }}>{singleTitle}</MarqueeDouble>
+                                <MarqueeDouble step={1} interval={marqueeInterval16} ref= {(ref => {this.titleMarquee = ref})} autoStart={!this.state.overflow.artist} onStart= {() => { if (this.artistMarquee != undefined) { this.titleMarquee.stop(); this.artistMarquee.delay(); } else { this.titleMarquee.delay(); } }}>{singleTitle}</MarqueeDouble>
                             )
                             : singleTitle}
                     </div>
@@ -115,6 +119,7 @@ class MusicInfo extends Component {
         );
     }
 }
+
 MusicInfo.propTypes = propTypes;
 MusicInfo.defaultProps = defaultProps;
 export default MusicInfo;
