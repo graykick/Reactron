@@ -28,8 +28,7 @@ class MusicPlay extends Component {
             position: 0,
             current: 0,
             total: 300,
-            currentTotal: 300,
-            position: 0
+            currentTotal: 300
         }
         this.increaseTime = this.increaseTime.bind(this);
         this.getMPDStatus = this.getMPDStatus.bind(this);

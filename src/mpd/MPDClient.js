@@ -1,7 +1,7 @@
 class MPDClient {
     constructor(ip, port) {
         this.callbackQueue = [];
-        this.commnadQueue = [];
+        this.commandQueue = [];
 
         this.net = window.require('net');
         this.start = false;
@@ -9,24 +9,20 @@ class MPDClient {
             port: port,
             host: ip
         }, () => {
-            this.callbackQueue.push((res) => {
-            });
+            this.callbackQueue.push((res) => {});
         });
         this.client.on('data', (res) => {
             console.log(res.toString())
-            this.reciveResponse(res)
+            this.receiveResponse(res)
         });
-
-
     }
 
-    sendCommand(command, callback = (res) => {
-    }) {
+    sendCommand(command, callback = (res) => {}) {
         this.callbackQueue.push(callback);
-        this.commnadQueue.push(command);
+        this.commandQueue.push(command);
     }
 
-    reciveResponse(res) {
+    receiveResponse(res) {
         if (!this.start && res.toString().match(/^OK MPD/)) {
             this.start = true;
             this.writeCommand();
@@ -40,7 +36,7 @@ class MPDClient {
 
     writeCommand() {
         if (this.callbackQueue.length > 0) {
-            this.client.write(this.commnadQueue.shift() + '\n');
+            this.client.write(this.commandQueue.shift() + '\n');
         } else {
             setTimeout(this.writeCommand.bind(this), 100);
         }
